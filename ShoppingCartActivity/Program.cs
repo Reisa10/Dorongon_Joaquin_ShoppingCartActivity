@@ -47,7 +47,7 @@ namespace ShoppingCartActivity
         }
         public void DisplayCartItem()
         {
-            Console.WriteLine($"Product: {Product.Name}, Quantity: {Quantity}, Subtotal: ${Subtotal}");
+            Console.WriteLine($"Product: {Product.Name}, Quantity: {Quantity}, Subtotal: ${Subtotal}\n");
         }
     }
 
@@ -62,7 +62,7 @@ namespace ShoppingCartActivity
         }
         static void Main()
         {
-            
+
             Product[] products = new Product[5];
 
             products[0] = new Product(1, "Apple", 20, 10);
@@ -80,21 +80,24 @@ namespace ShoppingCartActivity
                 DisplayMenu(products);
                 Console.WriteLine("==================");
                 Console.WriteLine("\n1. Buy Products\n2. View Cart\n3. Exit\n");
+                // Cart count is patrick at the moment
+                Console.WriteLine($"cartcount: {cartCount}");
+                Console.Write("Input your Choice: ");
                 string choice = Console.ReadLine();
-            
+                Console.WriteLine();
                 if (choice == "1")
                 {
                     if (cartCount >= cart.Length)
                     {
                         Console.WriteLine("Cart is full.\n");
-                        continue;
+
                     }
                     else
                     {
                         DisplayMenu(products);
-                        Console.WriteLine("\nInput product ID:");
+                        Console.Write("\nInput product ID: ");
                         int productId = int.Parse(Console.ReadLine());
-                        Console.WriteLine("Input quantity:");
+                        Console.Write("Input quantity: ");
                         int quantity = int.Parse(Console.ReadLine());
 
                         Product selectedProd = products[productId - 1];
@@ -125,7 +128,7 @@ namespace ShoppingCartActivity
                             Console.WriteLine("Item added to cart.\n");
                         }
                     }
-                }        
+                }
                 else if (choice == "2")
                 {
                     Console.WriteLine("View cart selected\n");
@@ -145,7 +148,24 @@ namespace ShoppingCartActivity
                     return;
                 }
             }
-                
+        }
+        public void checkOut()
+        {
+            Console.WriteLine("Do you want to proceed to check out? (Y/N): ");
+            string choice = Console.ReadLine().ToUpper();
+            if (choice == "Y")
+            {
+
+            }
+            else if (choice == "N")
+            {
+
+            }
+            else
+            {
+                Console.WriteLine("Invalid Input");
+                return;
+            }
         }
     }
 }
