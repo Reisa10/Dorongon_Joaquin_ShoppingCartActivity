@@ -24,7 +24,7 @@ namespace ShoppingCartActivity
         }
         public void DisplayProduct()
         {
-            Console.WriteLine($"{Id,2} {Name,10} {Price,10} {RemainingStock,5}");
+            Console.WriteLine($"{Id,-3} {Name,-10} {Price,8:F2} {RemainingStock,8}");
         }
         public bool HasEnoughStock(int quantity)
         {
@@ -52,7 +52,7 @@ namespace ShoppingCartActivity
         }
         public void DisplayCartItem()
         {
-            Console.WriteLine($"{Product.Name,-10} {Quantity,5} ${Subtotal,10:F2}");
+            Console.WriteLine($"{Product.Name,-10} {Quantity,-5} ${Subtotal:F2}");
         }
     }
 
@@ -81,11 +81,11 @@ namespace ShoppingCartActivity
             int cartQuantity = 0;   
             while (true)
             {
-                Console.WriteLine($"CartQty: {cartQuantity}     CartCount: {cartCount}");
-                Console.WriteLine("======= FOOD STORE MENU =======\n");
-                Console.WriteLine($"{"ID",3} {"Product",10} {"Price",10} {"Stock"}");
+                Console.WriteLine("=========== FOOD STORE ==========");
+                Console.WriteLine($"{"ID",-3} {"PRODUCT",-13} {"PRICE",-10} {"STOCK",-8}");
+                Console.WriteLine("---------------------------------");
                 DisplayMenu(products);
-                Console.WriteLine("===============================");
+                Console.WriteLine("=================================");
                 Console.WriteLine("\n1. Buy Products\n2. View Cart\n3. Exit\n");
                 Console.Write("Input your Choice: ");
                 string choice = Console.ReadLine();
@@ -104,8 +104,11 @@ namespace ShoppingCartActivity
                     }
                     else
                     {
-                        Console.WriteLine($"{"ID",3} {"Product",10} {"Price",10} {"Stock"}");
+                        Console.WriteLine("=========== FOOD STORE ==========");
+                        Console.WriteLine($"{"ID",-3} {"PRODUCT",-13} {"PRICE",-10} {"STOCK",-8}");
+                        Console.WriteLine("---------------------------------");
                         DisplayMenu(products);
+                        Console.WriteLine("=================================");
                         Console.Write("\nInput product ID: ");
                         if (!int.TryParse(Console.ReadLine(), out int productId))
                         {
@@ -179,8 +182,9 @@ namespace ShoppingCartActivity
                 }
                 else if (choice == "2")
                 {
-                    Console.WriteLine("=== CART ===\n");
-
+                    Console.WriteLine("=========== CART ==========");
+                    Console.WriteLine($"{"ITEM",-10} {"QTY",-5} {"SUBTOTAL",-10}");
+                    Console.WriteLine("--------------------------");
                     if (cartCount == 0 || cartQuantity == 0)
                     {
                         Console.WriteLine("Cart is empty.\n");
@@ -195,7 +199,7 @@ namespace ShoppingCartActivity
                         grandTotal += cart[i].Subtotal;
                     }
 
-                    Console.WriteLine($"Grand Total: ${grandTotal}");
+                    Console.WriteLine($"\nGrand Total: ${grandTotal}");
 
                     double discount = 0;
 
@@ -215,23 +219,28 @@ namespace ShoppingCartActivity
 
                     if (confirm == "Y")
                     {
-                        Console.WriteLine("\n=== RECEIPT ===");
+                        Console.WriteLine("\n=========== RECEIPT ===========");
+                        Console.WriteLine($"{"ITEM",-10} {"QTY",-5} {"SUBTOTAL",-10}");
 
                         for (int i = 0; i < cartCount; i++)
                         {
                             cart[i].DisplayCartItem();
                         }
 
-                        Console.WriteLine($"Grand Total: ${grandTotal:F2}");
-                        Console.WriteLine($"Discount: ${discount:F2}");
-                        Console.WriteLine($"Final Total: ${finalTotal:F2}");
+                        Console.WriteLine("------------------------------");
+                        Console.WriteLine($"Grand Total:     ${grandTotal:F2}");
+                        Console.WriteLine($"Discount:        ${discount:F2}");
+                        Console.WriteLine($"Final Total:     ${finalTotal:F2}");
+                        Console.WriteLine("===============================");
                         cart = new CartItem[5];
                         cartCount = 0;
                         cartQuantity = 0;
 
-                        Console.WriteLine("\n======= UPDATED FOOD MENU =======\n");
-                        Console.WriteLine($"{"ID",3} {"Product",10} {"Price",10} {"Stock"}");
+                        Console.WriteLine("\n\n======= UPDATED FOOD MENU =======");
+                        Console.WriteLine($"{"ID",-3} {"Product",-13} {"Price",-10} {"Stock"}");
+                        Console.WriteLine("---------------------------------");
                         DisplayMenu(products);
+                        Console.WriteLine("=================================");
                         Console.WriteLine("\nPress any key to continue\n");
                         Console.ReadKey();
                         Console.Clear();
