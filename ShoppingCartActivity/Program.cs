@@ -73,7 +73,7 @@ namespace ShoppingCartActivity
 
             CartItem[] cart = new CartItem[5];
             int cartCount = 0;
-            int cartqty = 0;   
+            int cartQuantity = 0;   
             while (true)
             {
                 Console.WriteLine("======= FOOD STORE MENU =======\n");
@@ -90,12 +90,13 @@ namespace ShoppingCartActivity
                     {
                         Console.WriteLine("Cart is full. Can only bought 5 Products at a time\n");
                     }
-                    else if (cartqty >= 20)
+                    else if (cartQuantity >= 20)
                     {
                         Console.WriteLine("Cart is full. Can only bought 20 quantity at a time\n");
                     }
                     else
                     {
+                        Console.WriteLine($"{"ID",3} {"Product",10} {"Price",10} {"Stock"}");
                         DisplayMenu(products);
                         Console.Write("\nInput product ID: ");
                         int productId = int.Parse(Console.ReadLine());
@@ -107,6 +108,11 @@ namespace ShoppingCartActivity
 
                         bool found = false;
 
+                        if (cartQuantity + quantity > 20)
+                        {
+                            Console.WriteLine("Cart limit exceeded (max 20 items total).\n");
+                            continue;
+                        }
                         if (quantity > selectedProd.RemainingStock)
                         {
                             Console.WriteLine($"The stock of {selectedProd.Name} is only {selectedProd.RemainingStock}\n");
@@ -127,7 +133,7 @@ namespace ShoppingCartActivity
                                 cart[cartCount] = new CartItem(selectedProd, quantity);
                                 cartCount++;
                             }
-                            cartqty += quantity;
+                            cartQuantity += quantity;
                             selectedProd.RemainingStock -= quantity;
                             Console.WriteLine("Item added to cart.\n");
                         }
@@ -137,7 +143,7 @@ namespace ShoppingCartActivity
                 {
                     Console.WriteLine("=== CART ===\n");
 
-                    if (cartCount == 0 || cartqty == 0)
+                    if (cartCount == 0 || cartQuantity == 0)
                     {
                         Console.WriteLine("Cart is empty.\n");
                         continue;
@@ -167,6 +173,7 @@ namespace ShoppingCartActivity
 
                     Console.Write("Proceed to checkout? (Y/N): ");
                     string confirm = Console.ReadLine().ToUpper();
+                    Console.Clear();
 
                     if (confirm == "Y")
                     {
@@ -177,14 +184,15 @@ namespace ShoppingCartActivity
                             cart[i].DisplayCartItem();
                         }
 
-                        Console.WriteLine($"Grand Total: ${grandTotal}");
-                        Console.WriteLine($"Discount: ${discount}");
-                        Console.WriteLine($"Final Total: ${finalTotal}");
+                        Console.WriteLine($"Grand Total: ${grandTotal:F2}");
+                        Console.WriteLine($"Discount: ${discount:F2}");
+                        Console.WriteLine($"Final Total: ${finalTotal:F2}");
                         cart = new CartItem[5];
                         cartCount = 0;
-                        cartqty = 0;
+                        cartQuantity = 0;
 
-                        Console.WriteLine("\n=== UPDATED STOCK ===");
+                        Console.WriteLine("\n======= UPDATED FOOD MENU =======\n");
+                        Console.WriteLine($"{"ID",3} {"Product",10} {"Price",10} {"Stock"}");
                         DisplayMenu(products);
                         Console.WriteLine("\nPress any key to continue\n");
                         Console.ReadKey();
