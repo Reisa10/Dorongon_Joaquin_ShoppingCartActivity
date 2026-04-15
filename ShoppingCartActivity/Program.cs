@@ -24,7 +24,7 @@ namespace ShoppingCartActivity
         }
         public void DisplayProduct()
         {
-            Console.WriteLine($"ID: {Id}, Name: {Name}, Price: ${Price}, Stock: {RemainingStock}");
+            Console.WriteLine($"{Id,2} {Name,10} {Price,10} {RemainingStock,5}");
         }
     }
     class CartItem
@@ -76,9 +76,10 @@ namespace ShoppingCartActivity
             int cartqty = 0;   
             while (true)
             {
-                Console.WriteLine("=== FOOD STORE MENU ===\n");
+                Console.WriteLine("======= FOOD STORE MENU =======\n");
+                Console.WriteLine($"{"ID",3} {"Product",10} {"Price",10} {"Stock"}");
                 DisplayMenu(products);
-                Console.WriteLine("==================");
+                Console.WriteLine("===============================");
                 Console.WriteLine("\n1. Buy Products\n2. View Cart\n3. Exit\n");
                 Console.Write("Input your Choice: ");
                 string choice = Console.ReadLine();
