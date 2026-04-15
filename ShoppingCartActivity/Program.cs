@@ -71,26 +71,27 @@ namespace ShoppingCartActivity
             products[3] = new Product(4, "Bread", 40, 5);
             products[4] = new Product(5, "Eggs", 7, 30);
 
-            CartItem[] cart = new CartItem[10];
+            CartItem[] cart = new CartItem[5];
             int cartCount = 0;
-
+            int cartqty = 0;   
             while (true)
             {
                 Console.WriteLine("=== FOOD STORE MENU ===\n");
                 DisplayMenu(products);
                 Console.WriteLine("==================");
                 Console.WriteLine("\n1. Buy Products\n2. View Cart\n3. Exit\n");
-                // Cart count is patrick at the moment
-                Console.WriteLine($"cartcount: {cartCount}");
                 Console.Write("Input your Choice: ");
                 string choice = Console.ReadLine();
-                Console.WriteLine();
+                Console.Clear();
                 if (choice == "1")
                 {
                     if (cartCount >= cart.Length)
                     {
-                        Console.WriteLine("Cart is full.\n");
-
+                        Console.WriteLine("Cart is full. Can only bought 5 Products at a time\n");
+                    }
+                    else if (cartqty >= 20)
+                    {
+                        Console.WriteLine("Cart is full. Can only bought 20 quantity at a time\n");
                     }
                     else
                     {
@@ -99,6 +100,7 @@ namespace ShoppingCartActivity
                         int productId = int.Parse(Console.ReadLine());
                         Console.Write("Input quantity: ");
                         int quantity = int.Parse(Console.ReadLine());
+                        Console.Clear();
 
                         Product selectedProd = products[productId - 1];
 
@@ -124,6 +126,7 @@ namespace ShoppingCartActivity
                                 cart[cartCount] = new CartItem(selectedProd, quantity);
                                 cartCount++;
                             }
+                            cartqty += quantity;
                             selectedProd.RemainingStock -= quantity;
                             Console.WriteLine("Item added to cart.\n");
                         }
@@ -131,10 +134,68 @@ namespace ShoppingCartActivity
                 }
                 else if (choice == "2")
                 {
-                    Console.WriteLine("View cart selected\n");
+                    Console.WriteLine("=== CART ===\n");
+
+                    if (cartCount == 0 || cartqty == 0)
+                    {
+                        Console.WriteLine("Cart is empty.\n");
+                        continue;
+                    }
+
+                    double grandTotal = 0;
+
                     for (int i = 0; i < cartCount; i++)
                     {
                         cart[i].DisplayCartItem();
+                        grandTotal += cart[i].Subtotal;
+                    }
+
+                    Console.WriteLine($"Grand Total: ${grandTotal}");
+
+                    double discount = 0;
+
+                    if (grandTotal >= 5000)
+                    {
+                        discount = grandTotal * 0.10;
+                        Console.WriteLine($"Discount (10%): ${discount}");
+                    }
+
+                    double finalTotal = grandTotal - discount;
+
+                    Console.WriteLine($"Final Total: ${finalTotal}\n");
+
+                    Console.Write("Proceed to checkout? (Y/N): ");
+                    string confirm = Console.ReadLine().ToUpper();
+
+                    if (confirm == "Y")
+                    {
+                        Console.WriteLine("\n=== RECEIPT ===");
+
+                        for (int i = 0; i < cartCount; i++)
+                        {
+                            cart[i].DisplayCartItem();
+                        }
+
+                        Console.WriteLine($"Grand Total: ${grandTotal}");
+                        Console.WriteLine($"Discount: ${discount}");
+                        Console.WriteLine($"Final Total: ${finalTotal}");
+                        cart = new CartItem[5];
+                        cartCount = 0;
+                        cartqty = 0;
+
+                        Console.WriteLine("\n=== UPDATED STOCK ===");
+                        DisplayMenu(products);
+                        Console.WriteLine("\nPress any key to continue\n");
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
+                    else if (confirm == "N")
+                    {
+                        Console.WriteLine("Continue Shopping\n");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid input. Returning to menu.\n");   
                     }
                 }
                 else if (choice == "3")
@@ -145,26 +206,8 @@ namespace ShoppingCartActivity
                 else
                 {
                     Console.WriteLine("Invalid choice");
-                    return;
+                    
                 }
-            }
-        }
-        public void checkOut()
-        {
-            Console.WriteLine("Do you want to proceed to check out? (Y/N): ");
-            string choice = Console.ReadLine().ToUpper();
-            if (choice == "Y")
-            {
-
-            }
-            else if (choice == "N")
-            {
-
-            }
-            else
-            {
-                Console.WriteLine("Invalid Input");
-                return;
             }
         }
     }
