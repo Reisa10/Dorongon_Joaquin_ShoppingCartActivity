@@ -26,7 +26,12 @@ namespace ShoppingCartActivity
         {
             Console.WriteLine($"{Id,2} {Name,10} {Price,10} {RemainingStock,5}");
         }
+        public bool HasEnoughStock(int quantity)
+        {
+            return RemainingStock >= quantity;
+        }
     }
+
     class CartItem
     {
         public Product Product { get; set; }
@@ -113,7 +118,7 @@ namespace ShoppingCartActivity
                             Console.WriteLine("Cart limit exceeded (max 20 items total).\n");
                             continue;
                         }
-                        if (quantity > selectedProd.RemainingStock)
+                        if (!selectedProd.HasEnoughStock(quantity))
                         {
                             Console.WriteLine($"The stock of {selectedProd.Name} is only {selectedProd.RemainingStock}\n");
                         }
