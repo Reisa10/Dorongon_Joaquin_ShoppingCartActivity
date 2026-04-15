@@ -52,7 +52,7 @@ namespace ShoppingCartActivity
         }
         public void DisplayCartItem()
         {
-            Console.WriteLine($"Product: {Product.Name}, Quantity: {Quantity}, Subtotal: ${Subtotal}\n");
+            Console.WriteLine($"{Product.Name,-10} {Quantity,5} ${Subtotal,10:F2}");
         }
     }
 
@@ -81,6 +81,7 @@ namespace ShoppingCartActivity
             int cartQuantity = 0;   
             while (true)
             {
+                Console.WriteLine($"CartQty: {cartQuantity}     CartCount: {cartCount}");
                 Console.WriteLine("======= FOOD STORE MENU =======\n");
                 Console.WriteLine($"{"ID",3} {"Product",10} {"Price",10} {"Stock"}");
                 DisplayMenu(products);
@@ -93,11 +94,13 @@ namespace ShoppingCartActivity
                 {
                     if (cartCount >= cart.Length)
                     {
-                        Console.WriteLine("Cart is full. Can only bought 5 Products at a time\n");
+                        Console.WriteLine("Cart limit exceeded (max 5 products total)\n");
+                        continue;
                     }
                     else if (cartQuantity >= 20)
                     {
-                        Console.WriteLine("Cart is full. Can only bought 20 quantity at a time\n");
+                        Console.WriteLine("Cart already full (max 20 items).\n");
+                        continue;
                     }
                     else
                     {
@@ -150,6 +153,7 @@ namespace ShoppingCartActivity
                         if (!selectedProd.HasEnoughStock(quantity))
                         {
                             Console.WriteLine($"The stock of {selectedProd.Name} is only {selectedProd.RemainingStock}\n");
+                            continue;
                         }
                         else
                         {
