@@ -104,12 +104,41 @@ namespace ShoppingCartActivity
                         Console.WriteLine($"{"ID",3} {"Product",10} {"Price",10} {"Stock"}");
                         DisplayMenu(products);
                         Console.Write("\nInput product ID: ");
-                        int productId = int.Parse(Console.ReadLine());
-                        Console.Write("Input quantity: ");
-                        int quantity = int.Parse(Console.ReadLine());
-                        Console.Clear();
+                        if (!int.TryParse(Console.ReadLine(), out int productId))
+                        {
+                            Console.WriteLine("Invalid product ID.\n");
+                            continue;
+                        }
+
+                        if (productId < 1 || productId > products.Length)
+                        {
+                            Console.WriteLine("Invalid product ID.\n");
+                            continue;
+                        }
 
                         Product selectedProd = products[productId - 1];
+
+                        if (selectedProd.RemainingStock == 0)
+                        {
+                            Console.WriteLine("This product is out of stock.\n");
+                            continue;
+                        }
+
+                        Console.Write("Input quantity: ");
+                        if (!int.TryParse(Console.ReadLine(), out int quantity))
+                        {
+                            Console.WriteLine("Invalid quantity.\n");
+                            continue;
+                        }
+
+                        if (quantity <= 0)
+                        {
+                            Console.WriteLine("Quantity must be greater than 0.\n");
+                            continue;
+                        }
+                        Console.Clear();
+
+
 
                         bool found = false;
 
