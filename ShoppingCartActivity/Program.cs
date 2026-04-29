@@ -37,7 +37,7 @@ namespace ShoppingCartActivity
                 Console.WriteLine("---------------------------------");
                 DisplayMenu(products);
                 Console.WriteLine("=================================");
-                Console.WriteLine("\n1. Buy Products\n2. View Cart\n3. Exit\n");
+                Console.WriteLine("\n1. Buy Products\n2. View Cart\n3. Search\n4. Exit\n");
                 Console.Write("Input your Choice: ");
                 string choice = Console.ReadLine();
                 Console.Clear();
@@ -206,6 +206,32 @@ namespace ShoppingCartActivity
                     }
                 }
                 else if (choice == "3")
+                {
+                    Console.Clear();
+                    Console.Write("Input the Product you want to search: ");
+                    string search = Console.ReadLine().ToUpper();
+                    foreach (Product i in products)
+                    {
+                        if (i.Name.ToUpper() == search)
+                        {
+                            Console.WriteLine($"{"ID",-3} {"Product",-13} {"Price",-10} {"Stock"}");
+                            i.DisplayProduct();
+                            Console.WriteLine("\nPress any key to continue\n");
+                            Console.ReadKey();
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine($"{search} was not found!");
+                            Console.WriteLine("\nPress any key to continue\n");
+                            Console.ReadKey();
+                            break;
+
+                        }
+                    }
+
+                }
+                else if (choice == "4")
                 {
                     Console.WriteLine("Exit");
                     return;

@@ -33,7 +33,14 @@ namespace ShoppingCartActivity
         {
             RemainingStock -= quantity;
         }
+        public void Pause()
+        {
+            Console.WriteLine("\nPress any key to continue\n");
+            Console.ReadKey();
+        }
     }
+
+
 
     class CartItem
     {
