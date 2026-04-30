@@ -51,7 +51,7 @@ namespace ShoppingCartActivity
             products[6] = new Product(7, "Malunggay", 5, 12, "Vegetable");
             products[7] = new Product(8, "Takoyaki", 10, 12, "Food");
             products[8] = new Product(9, "Water", 2, 500, "Beverage");
-            products[9] = new Product(10, "CHB", 15, 30, "Brick");
+            products[9] = new Product(10, "CHB", 250, 100, "Brick");
 
 
 
@@ -82,9 +82,9 @@ namespace ShoppingCartActivity
                         Pause();
                         continue;
                     }
-                    else if (cartQuantity >= 20)
+                    else if (cartQuantity >= 30)
                     {
-                        Console.WriteLine("Cart already full (max 20 items).\n");
+                        Console.WriteLine("Cart already full (max 30 items).\n");
                         Pause();
                         continue;
                     }
@@ -135,9 +135,9 @@ namespace ShoppingCartActivity
                             continue;
                         }
 
-                        if (cartQuantity + quantity > 20)
+                        if (cartQuantity + quantity > 30)
                         {
-                            Console.WriteLine("Cart limit exceeded (max 20 items total).\n");
+                            Console.WriteLine("Cart limit exceeded (max 30 items total).\n");
                             Pause();
                             continue;
                         }
@@ -278,9 +278,9 @@ namespace ShoppingCartActivity
                                         break;
                                     }
 
-                                    if (cartQuantity - cart[i].Quantity + newQty > 20)
+                                    if (cartQuantity - cart[i].Quantity + newQty > 30)
                                     {
-                                        Console.WriteLine("Cannot update - would exceed 20-item cart limit.\n");
+                                        Console.WriteLine("Cannot update - would exceed 30-item cart limit.\n");
                                         Pause(); 
                                         break;
                                     }
