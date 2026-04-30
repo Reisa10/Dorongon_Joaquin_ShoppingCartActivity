@@ -36,12 +36,12 @@ namespace ShoppingCartActivity
         {
             RemainingStock -= quantity;
         }
-        public void ReorderAlert() 
+        public void ReorderAlert()
         {
-            Console.WriteLine("LOW STOCK ALERT");
-
-            RemainingStock -= 5;
-            
+            if (RemainingStock <= 5)
+            {
+                Console.WriteLine($"  {Name} has only {RemainingStock} stock(s) left.");
+            }
         }
     }
 
@@ -68,6 +68,10 @@ namespace ShoppingCartActivity
         public void DisplayCartItem()
         {
             Console.WriteLine($"{Product.Name,-10} {Quantity,-5} ${Subtotal:F2}");
-        }        
+        public void SetQuantity(int newQty)
+        {
+            Quantity = newQty;
+            Subtotal = Product.Price * Quantity;
+        }
     }
 }
