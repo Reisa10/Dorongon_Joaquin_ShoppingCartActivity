@@ -26,7 +26,7 @@ namespace ShoppingCartActivity
         }
         public void DisplayProduct()
         {
-            Console.WriteLine($"{Id,-3} {Name,-10} {Price,8:F2} {RemainingStock,8}");
+            Console.WriteLine($"{Id,-3} {Name,-10} {Price,8:F2} {RemainingStock,8} {Category,10}");
         }
         public bool HasEnoughStock(int quantity)
         {
@@ -40,7 +40,7 @@ namespace ShoppingCartActivity
         {
             if (RemainingStock <= 5)
             {
-                Console.WriteLine($"  {Name} has only {RemainingStock} stock(s) left.");
+                Console.WriteLine($"{Name} has only {RemainingStock} stock(s) left.");
             }
         }
     }
@@ -67,7 +67,7 @@ namespace ShoppingCartActivity
         }
         public void DisplayCartItem()
         {
-            Console.WriteLine($"{Product.Name,-10} {Quantity,-5} ${Subtotal:F2}");
+            Console.WriteLine($"{Product.Id,-3}{Product.Name,-10} {Quantity,-5} ${Subtotal:F2}");
         }
         public void SetQuantity(int newQty)
         {
