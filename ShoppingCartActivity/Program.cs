@@ -31,7 +31,7 @@ namespace ShoppingCartActivity
                 Console.Write(prompt);
                 string ans = Console.ReadLine().ToUpper().Trim();
                 if (ans == "Y" || ans == "N") return ans;
-                Console.WriteLine("Invalid input. Please enter Y or N only.");
+                Console.WriteLine("Invalid input. Please enter Y or N only.\n");
             }
         }
 
@@ -79,11 +79,13 @@ namespace ShoppingCartActivity
                     if (cartCount >= cart.Length)
                     {
                         Console.WriteLine("Cart limit exceeded (max 5 products total)\n");
+                        Pause();
                         continue;
                     }
                     else if (cartQuantity >= 20)
                     {
                         Console.WriteLine("Cart already full (max 20 items).\n");
+                        Pause();
                         continue;
                     }
                     else
@@ -98,12 +100,14 @@ namespace ShoppingCartActivity
                         if (!int.TryParse(Console.ReadLine(), out int productId))
                         {
                             Console.WriteLine("Invalid product ID.\n");
+                            Pause();
                             continue;
                         }
 
                         if (productId < 1 || productId > products.Length)
                         {
                             Console.WriteLine("Invalid product ID.\n");
+                            Pause();
                             continue;
                         }
 
@@ -111,7 +115,8 @@ namespace ShoppingCartActivity
 
                         if (selectedProd.RemainingStock == 0)
                         {
-                            Console.WriteLine("This product is out of stock.\n");
+                            Console.WriteLine($"{selectedProd.Name} is out of stock.\n");
+                            Pause();
                             continue;
                         }
 
@@ -119,24 +124,28 @@ namespace ShoppingCartActivity
                         if (!int.TryParse(Console.ReadLine(), out int quantity))
                         {
                             Console.WriteLine("Invalid quantity.\n");
+                            Pause();
                             continue;
                         }
 
                         if (quantity <= 0)
                         {
                             Console.WriteLine("Quantity must be greater than 0.\n");
+                            Console.Clear();
                             continue;
                         }
 
                         if (cartQuantity + quantity > 20)
                         {
                             Console.WriteLine("Cart limit exceeded (max 20 items total).\n");
+                            Pause();
                             continue;
                         }
 
                         if (!selectedProd.HasEnoughStock(quantity))
                         {
                             Console.WriteLine($"The stock of {selectedProd.Name} is only {selectedProd.RemainingStock}\n");
+                            Pause();
                             continue;
                         }
 
@@ -265,13 +274,15 @@ namespace ShoppingCartActivity
                                     if (diff > 0 && !cart[i].Product.HasEnoughStock(diff))
                                     {
                                         Console.WriteLine($"Only {cart[i].Product.RemainingStock} additional unit(s) available.\n");
-                                        Pause(); break;
+                                        Pause(); 
+                                        break;
                                     }
 
                                     if (cartQuantity - cart[i].Quantity + newQty > 20)
                                     {
                                         Console.WriteLine("Cannot update - would exceed 20-item cart limit.\n");
-                                        Pause(); break;
+                                        Pause(); 
+                                        break;
                                     }
 
                                     cart[i].Product.DeductStock(diff);
@@ -315,7 +326,7 @@ namespace ShoppingCartActivity
                                 if (cart[i].Product.Id == removeId)
                                 {
                                     foundRemove = true;
-                                    cart[i].Product.DeductStock(-cart[i].Quantity); // restore stock
+                                    cart[i].Product.DeductStock(-cart[i].Quantity); 
                                     cartQuantity -= cart[i].Quantity;
 
                                     // Shift array left
@@ -331,7 +342,8 @@ namespace ShoppingCartActivity
 
                             if (!foundRemove)
                             {
-                                Console.WriteLine("Product not found in cart.\n"); Pause();
+                                Console.WriteLine("Product not found in cart.\n"); 
+                                Pause();
                             }
                         }
 
@@ -354,7 +366,8 @@ namespace ShoppingCartActivity
                             }
                             else
                             {
-                                Console.WriteLine("Cancelled.\n"); Pause();
+                                Console.WriteLine("Cancelled.\n"); 
+                                Pause();
                             }
                         }
 
@@ -556,6 +569,7 @@ namespace ShoppingCartActivity
                 else
                 {
                     Console.WriteLine("Invalid choice. Please enter 1-5.\n");
+                    Pause() ;
                 }
             }
         }
