@@ -25,7 +25,7 @@ namespace ShoppingCartActivity
 
         static void Main()
         {
-
+            int receiptNo = 0;
             Product[] products = new Product[5];
 
             products[0] = new Product(1, "Apple", 20, 10, "Food");
@@ -353,10 +353,17 @@ namespace ShoppingCartActivity
 
                                 double change = payment - finalTotal;
 
+                                receiptNo++;
+                                DateTime now = DateTime.Now;
+
                                 Console.WriteLine("\n=========== RECEIPT ===========");
+                                Console.WriteLine($"Receipt No : {receiptNo:D4}");
+                                Console.WriteLine($"Date       : {now:MMMM dd, yyyy h:mm tt}");
+                                Console.WriteLine("-------------------------------");
                                 Console.WriteLine($"{"ITEM",-10} {"QTY",-5} {"SUBTOTAL",-10}");
+                                Console.WriteLine("-------------------------------");
                                 for (int i = 0; i < cartCount; i++) cart[i].DisplayCartItem();
-                                Console.WriteLine("------------------------------");
+                                Console.WriteLine("-------------------------------");
                                 Console.WriteLine($"Grand Total:  ${grandTotal:F2}");
                                 Console.WriteLine($"Discount:     ${discount:F2}");
                                 Console.WriteLine($"Final Total:  ${finalTotal:F2}");
