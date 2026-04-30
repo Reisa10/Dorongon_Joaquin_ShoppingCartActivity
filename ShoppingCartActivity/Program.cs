@@ -219,7 +219,7 @@ namespace ShoppingCartActivity
                 else if (choice == "3")
                 {
                     Console.Clear();
-                    Console.Write("Input the Product you want to search: ");
+                    Console.Write("Input the Product or Category you want to search: ");
                     string search = Console.ReadLine().ToUpper();
                     Console.WriteLine($"{"ID",-3} {"Product",-13} {"Price",-10} {"Stock"}");
                     foreach (Product i in products)
