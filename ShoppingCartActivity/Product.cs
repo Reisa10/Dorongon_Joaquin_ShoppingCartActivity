@@ -68,10 +68,38 @@ namespace ShoppingCartActivity
         public void DisplayCartItem()
         {
             Console.WriteLine($"{Product.Name,-10} {Quantity,-5} ${Subtotal:F2}");
+        }
         public void SetQuantity(int newQty)
         {
             Quantity = newQty;
             Subtotal = Product.Price * Quantity;
+        }
+    }
+    class Order
+    {
+        public int ReceiptNo { get; set; }
+        public DateTime Date { get; set; }
+        public CartItem[] Items { get; set; }
+        public int ItemCount { get; set; }
+        public double GrandTotal { get; set; }
+        public double Discount { get; set; }
+        public double FinalTotal { get; set; }
+        public double Payment { get; set; }
+        public double Change { get; set; }
+
+        public Order(int receiptNo, DateTime date, CartItem[] items, int itemCount,
+                     double grandTotal, double discount, double finalTotal,
+                     double payment, double change)
+        {
+            ReceiptNo = receiptNo;
+            Date = date;
+            Items = items;
+            ItemCount = itemCount;
+            GrandTotal = grandTotal;
+            Discount = discount;
+            FinalTotal = finalTotal;
+            Payment = payment;
+            Change = change;
         }
     }
 }
