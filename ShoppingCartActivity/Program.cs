@@ -410,9 +410,10 @@ namespace ShoppingCartActivity
                                         continue;
                                     }
 
-                                    break; 
+                                    break;
+                                    
                                 }
-
+                                Console.Clear();
                                 double change = payment - finalTotal;
 
                                 receiptNo++;
@@ -483,7 +484,7 @@ namespace ShoppingCartActivity
                     Console.Clear();
                     Console.Write("Input the Product or Category you want to search: ");
                     string search = Console.ReadLine().ToUpper();
-                    Console.WriteLine($"{"ID",-3} {"PRODUCT",-13} {"PRICE",-10} {"STOCK",-8} {"CATEGORY",-5}");
+                    Console.WriteLine($"\n{"ID",-3} {"PRODUCT",-13} {"PRICE",-10} {"STOCK",-8} {"CATEGORY",-5}");
                     Console.WriteLine("------------------------------------------------");
 
                     bool found = false;
