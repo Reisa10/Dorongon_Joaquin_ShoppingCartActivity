@@ -16,16 +16,23 @@ namespace ShoppingCartActivity
                 i.DisplayProduct();
             }
         }
+        public static void Pause()
+        {
+            Console.WriteLine("\nPress any key to continue\n");
+            Console.ReadKey();
+            Console.Clear();
+        }
+
         static void Main()
         {
 
             Product[] products = new Product[5];
 
-            products[0] = new Product(1, "Apple", 20, 10);
-            products[1] = new Product(2, "Banana", 10, 15);
-            products[2] = new Product(3, "Milk", 50, 0);
-            products[3] = new Product(4, "Bread", 40, 5);
-            products[4] = new Product(5, "Eggs", 7, 30);
+            products[0] = new Product(1, "Apple", 20, 10, "Food");
+            products[1] = new Product(2, "Banana", 10, 15, "Food");
+            products[2] = new Product(3, "Milk", 50, 0, "Food");
+            products[3] = new Product(4, "Bread", 40, 5, "Food");
+            products[4] = new Product(5, "Eggs", 7, 30, "Food");
 
             CartItem[] cart = new CartItem[5];
             int cartCount = 0;
@@ -139,6 +146,7 @@ namespace ShoppingCartActivity
                     if (cartCount == 0 || cartQuantity == 0)
                     {
                         Console.WriteLine("Cart is empty.\n");
+                        Pause();
                         continue;
                     }
 
@@ -192,17 +200,20 @@ namespace ShoppingCartActivity
                         Console.WriteLine("---------------------------------");
                         DisplayMenu(products);
                         Console.WriteLine("=================================");
-                        Console.WriteLine("\nPress any key to continue\n");
-                        Console.ReadKey();
+
+
+
+                        Pause();
                         Console.Clear();
                     }
                     else if (confirm == "N")
                     {
-                        Console.WriteLine("Continue Shopping\n");
+                        Console.WriteLine("Continue Shopping\n");                        
                     }
                     else
                     {
-                        Console.WriteLine("Invalid input. Returning to menu.\n");   
+                        Console.WriteLine("Invalid input. Returning to menu.\n");
+                        Pause();
                     }
                 }
                 else if (choice == "3")
@@ -210,25 +221,25 @@ namespace ShoppingCartActivity
                     Console.Clear();
                     Console.Write("Input the Product you want to search: ");
                     string search = Console.ReadLine().ToUpper();
+                    Console.WriteLine($"{"ID",-3} {"Product",-13} {"Price",-10} {"Stock"}");
                     foreach (Product i in products)
                     {
-                        if (i.Name.ToUpper() == search)
+
+                        if (i.Name.ToUpper() == search || i.Category.ToUpper() == search)
                         {
-                            Console.WriteLine($"{"ID",-3} {"Product",-13} {"Price",-10} {"Stock"}");
-                            i.DisplayProduct();
-                            Console.WriteLine("\nPress any key to continue\n");
-                            Console.ReadKey();
-                            break;
+                            
+                            i.DisplayProduct();                            
                         }
                         else
                         {
                             Console.WriteLine($"{search} was not found!");
-                            Console.WriteLine("\nPress any key to continue\n");
-                            Console.ReadKey();
+                            Pause();
                             break;
 
                         }
+                        
                     }
+                    Pause();
 
                 }
                 else if (choice == "4")

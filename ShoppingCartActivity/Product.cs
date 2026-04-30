@@ -8,18 +8,21 @@ namespace ShoppingCartActivity
 {
     class Product
     {
+
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Category { get; set; }
         public double Price { get; set; }
 
         public int RemainingStock { get; set; }
 
-        public Product(int id, string name, double price, int remainingStock)
+        public Product(int id, string name, double price, int remainingStock, string category)
         {
             Id = id;
             Name = name;
             Price = price;
             RemainingStock = remainingStock;
+            Category = category;
         }
         public void DisplayProduct()
         {
@@ -33,10 +36,12 @@ namespace ShoppingCartActivity
         {
             RemainingStock -= quantity;
         }
-        public void Pause()
+        public void ReorderAlert() 
         {
-            Console.WriteLine("\nPress any key to continue\n");
-            Console.ReadKey();
+            Console.WriteLine("LOW STOCK ALERT");
+
+            RemainingStock -= 5;
+            
         }
     }
 
@@ -63,6 +68,6 @@ namespace ShoppingCartActivity
         public void DisplayCartItem()
         {
             Console.WriteLine($"{Product.Name,-10} {Quantity,-5} ${Subtotal:F2}");
-        }
+        }        
     }
 }
