@@ -16,6 +16,7 @@ namespace ShoppingCartActivity
                 i.DisplayProduct();
             }
         }
+
         public static void Pause()
         {
             Console.WriteLine("\nPress any key to continue\n");
@@ -23,60 +24,90 @@ namespace ShoppingCartActivity
             Console.Clear();
         }
 
+        static string YesNo(string prompt)
+        {
+            while (true)
+            {
+                Console.Write(prompt);
+                string ans = Console.ReadLine().ToUpper().Trim();
+                if (ans == "Y" || ans == "N") return ans;
+                Console.WriteLine("Invalid input. Please enter Y or N only.\n");
+            }
+        }
+
         static void Main()
         {
+            int receiptNo = 0;
+            Order[] orderHistory = new Order[10];
+            int orderCount = 0;
 
-            Product[] products = new Product[5];
-
-            products[0] = new Product(1, "Apple", 20, 10, "Food");
-            products[1] = new Product(2, "Banana", 10, 15, "Food");
-            products[2] = new Product(3, "Milk", 50, 0, "Food");
+            Product[] products = new Product[10];
+            products[0] = new Product(1, "Apple", 20, 10, "Fruit");
+            products[1] = new Product(2, "Banana", 10, 15, "Fruit");
+            products[2] = new Product(3, "Milk", 50, 3, "Beverage");
             products[3] = new Product(4, "Bread", 40, 5, "Food");
             products[4] = new Product(5, "Eggs", 7, 30, "Food");
+            products[5] = new Product(6, "Asparagus", 20, 35, "Vegetable");
+            products[6] = new Product(7, "Malunggay", 5, 12, "Vegetable");
+            products[7] = new Product(8, "Takoyaki", 10, 12, "Food");
+            products[8] = new Product(9, "Water", 2, 500, "Beverage");
+            products[9] = new Product(10, "CHB", 250, 100, "Brick");
+
+
 
             CartItem[] cart = new CartItem[5];
             int cartCount = 0;
-            int cartQuantity = 0;   
+            int cartQuantity = 0;
+
             while (true)
             {
-                Console.WriteLine("=========== FOOD STORE ==========");
-                Console.WriteLine($"{"ID",-3} {"PRODUCT",-13} {"PRICE",-10} {"STOCK",-8}");
-                Console.WriteLine("---------------------------------");
+                Console.WriteLine("======== DORONGON'S SARI-SARI STORE ============");
+                Console.WriteLine($"{"ID",-3} {"PRODUCT",-13} {"PRICE",-10} {"STOCK",-8} {"CATEGORY",-5}");
+                Console.WriteLine("------------------------------------------------");
                 DisplayMenu(products);
-                Console.WriteLine("=================================");
-                Console.WriteLine("\n1. Buy Products\n2. View Cart\n3. Search\n4. Exit\n");
+                Console.WriteLine("================================================");
+                Console.WriteLine("\n1. Buy Products\n2. Cart Management\n3. Search\n4. Order History\n5. Exit\n");
                 Console.Write("Input your Choice: ");
                 string choice = Console.ReadLine();
                 Console.Clear();
+
+                // ══════════════════════════════════════════════════════════════
+                // 1. BUY PRODUCTS
+                // ══════════════════════════════════════════════════════════════
                 if (choice == "1")
                 {
                     if (cartCount >= cart.Length)
                     {
                         Console.WriteLine("Cart limit exceeded (max 5 products total)\n");
+                        Pause();
                         continue;
                     }
-                    else if (cartQuantity >= 20)
+                    else if (cartQuantity >= 30)
                     {
-                        Console.WriteLine("Cart already full (max 20 items).\n");
+                        Console.WriteLine("Cart already full (max 30 items).\n");
+                        Pause();
                         continue;
                     }
                     else
                     {
-                        Console.WriteLine("=========== FOOD STORE ==========");
-                        Console.WriteLine($"{"ID",-3} {"PRODUCT",-13} {"PRICE",-10} {"STOCK",-8}");
-                        Console.WriteLine("---------------------------------");
+                        Console.WriteLine("======== DORONGON'S SARI-SARI STORE ============");
+                        Console.WriteLine($"{"ID",-3} {"PRODUCT",-13} {"PRICE",-10} {"STOCK",-8} {"CATEGORY",-5}");
+                        Console.WriteLine("------------------------------------------------");
                         DisplayMenu(products);
-                        Console.WriteLine("=================================");
+                        Console.WriteLine("================================================");
                         Console.Write("\nInput product ID: ");
+
                         if (!int.TryParse(Console.ReadLine(), out int productId))
                         {
                             Console.WriteLine("Invalid product ID.\n");
+                            Pause();
                             continue;
                         }
 
                         if (productId < 1 || productId > products.Length)
                         {
                             Console.WriteLine("Invalid product ID.\n");
+                            Pause();
                             continue;
                         }
 
@@ -84,7 +115,8 @@ namespace ShoppingCartActivity
 
                         if (selectedProd.RemainingStock == 0)
                         {
-                            Console.WriteLine("This product is out of stock.\n");
+                            Console.WriteLine($"{selectedProd.Name} is out of stock.\n");
+                            Pause();
                             continue;
                         }
 
@@ -92,52 +124,58 @@ namespace ShoppingCartActivity
                         if (!int.TryParse(Console.ReadLine(), out int quantity))
                         {
                             Console.WriteLine("Invalid quantity.\n");
+                            Pause();
                             continue;
                         }
 
                         if (quantity <= 0)
                         {
                             Console.WriteLine("Quantity must be greater than 0.\n");
+                            Console.Clear();
                             continue;
                         }
-                        Console.Clear();
 
-
-
-                        bool found = false;
-
-                        if (cartQuantity + quantity > 20)
+                        if (cartQuantity + quantity > 30)
                         {
-                            Console.WriteLine("Cart limit exceeded (max 20 items total).\n");
+                            Console.WriteLine("Cart limit exceeded (max 30 items total).\n");
+                            Pause();
                             continue;
                         }
+
                         if (!selectedProd.HasEnoughStock(quantity))
                         {
                             Console.WriteLine($"The stock of {selectedProd.Name} is only {selectedProd.RemainingStock}\n");
+                            Pause();
                             continue;
                         }
-                        else
+
+                        bool found = false;
+                        for (int i = 0; i < cartCount; i++)
                         {
-                            for (int i = 0; i < cartCount; i++)
+                            if (cart[i].Product.Id == productId)
                             {
-                                if (cart[i].Product.Id == productId)
-                                {
-                                    cart[i].Update(quantity);
-                                    found = true;
-                                    break;
-                                }
+                                cart[i].Update(quantity);
+                                found = true;
+                                break;
                             }
-                            if (!found)
-                            {
-                                cart[cartCount] = new CartItem(selectedProd, quantity);
-                                cartCount++;
-                            }
-                            cartQuantity += quantity;
-                            selectedProd.DeductStock(quantity);
-                            Console.WriteLine("Item added to cart.\n");
                         }
+
+                        if (!found)
+                        {
+                            cart[cartCount] = new CartItem(selectedProd, quantity);
+                            cartCount++;
+                        }
+
+                        cartQuantity += quantity;
+                        selectedProd.DeductStock(quantity);
+                        Console.WriteLine("\nItem added to cart.\n\n");
+                        Pause();
                     }
                 }
+
+                // ══════════════════════════════════════════════════════════════
+                // 2. CART MANAGEMENT
+                // ══════════════════════════════════════════════════════════════
                 else if (choice == "2")
                 {
                     if (cartCount == 0)
@@ -152,7 +190,7 @@ namespace ShoppingCartActivity
                     {
                         Console.Clear();
                         Console.WriteLine("=========== CART MANAGEMENT ==========");
-                        Console.WriteLine($"{"ITEM",-10} {"QTY",-5} {"SUBTOTAL",-10}");
+                        Console.WriteLine($"{"ID",-3}{"ITEM",-10} {"QTY",-5} {"SUBTOTAL",-10}");
                         Console.WriteLine("--------------------------------------");
                         for (int i = 0; i < cartCount; i++)
                         {
@@ -169,10 +207,11 @@ namespace ShoppingCartActivity
                         string cartChoice = Console.ReadLine();
                         Console.Clear();
 
+                        // ── 1. VIEW CART ──────────────────────────────────────
                         if (cartChoice == "1")
                         {
                             Console.WriteLine("=========== CART ==========");
-                            Console.WriteLine($"{"ITEM",-10} {"QTY",-5} {"SUBTOTAL",-10}");
+                            Console.WriteLine($"{"ID",-3}{"ITEM",-10} {"QTY",-5} {"SUBTOTAL",-10}");
                             Console.WriteLine("--------------------------");
 
                             double grandTotal = 0;
@@ -186,18 +225,21 @@ namespace ShoppingCartActivity
                             if (grandTotal >= 5000)
                             {
                                 discount = grandTotal * 0.10;
-                                Console.WriteLine($"Discount (10%): ${discount}");
+                                Console.WriteLine($"Discount (10%): ${discount:F2}");
                             }
 
                             double finalTotal = grandTotal - discount;
-                            Console.WriteLine($"\nGrand Total: ${grandTotal}");
-                            Console.WriteLine($"Final Total: ${finalTotal}\n");
+                            Console.WriteLine("--------------------------");
+                            Console.WriteLine($"\nGrand Total: ${grandTotal:F2}");
+                            Console.WriteLine($"Final Total: ${finalTotal:F2}\n");
                             Pause();
                         }
+
+                        // ── 2. UPDATE ITEM QUANTITY ───────────────────────────
                         else if (cartChoice == "2")
                         {
                             Console.WriteLine("=========== UPDATE ITEM ==========");
-                            Console.WriteLine($"{"ITEM",-10} {"QTY",-5} {"SUBTOTAL",-10}");
+                            Console.WriteLine($"{"ID",-3}{"ITEM",-10} {"QTY",-5} {"SUBTOTAL",-10}");
                             Console.WriteLine("----------------------------------");
                             for (int i = 0; i < cartCount; i++)
                             {
@@ -207,7 +249,9 @@ namespace ShoppingCartActivity
                             Console.Write("\nEnter Product ID to update: ");
                             if (!int.TryParse(Console.ReadLine(), out int updateId))
                             {
-                                Console.WriteLine("Invalid ID.\n"); Pause(); continue;
+                                Console.WriteLine("Invalid ID.\n"); 
+                                Pause(); 
+                                continue;
                             }
 
                             bool foundItem = false;
@@ -216,11 +260,13 @@ namespace ShoppingCartActivity
                                 if (cart[i].Product.Id == updateId)
                                 {
                                     foundItem = true;
-                                    Console.WriteLine($"Current quantity of {cart[i].Product.Name}: {cart[i].Quantity}");
-                                    Console.Write("Enter new quantity: ");
+                                    Console.WriteLine($"\nCurrent quantity of {cart[i].Product.Name}: {cart[i].Quantity}");
+                                    Console.Write("\nEnter new quantity: ");
                                     if (!int.TryParse(Console.ReadLine(), out int newQty) || newQty <= 0)
                                     {
-                                        Console.WriteLine("Invalid quantity.\n"); Pause(); break;
+                                        Console.WriteLine("Invalid quantity.\n"); 
+                                        Pause(); 
+                                        break;
                                     }
 
                                     int diff = newQty - cart[i].Quantity;
@@ -228,13 +274,15 @@ namespace ShoppingCartActivity
                                     if (diff > 0 && !cart[i].Product.HasEnoughStock(diff))
                                     {
                                         Console.WriteLine($"Only {cart[i].Product.RemainingStock} additional unit(s) available.\n");
-                                        Pause(); break;
+                                        Pause(); 
+                                        break;
                                     }
 
-                                    if (cartQuantity - cart[i].Quantity + newQty > 20)
+                                    if (cartQuantity - cart[i].Quantity + newQty > 30)
                                     {
-                                        Console.WriteLine("Cannot update – would exceed 20-item cart limit.\n");
-                                        Pause(); break;
+                                        Console.WriteLine("Cannot update - would exceed 30-item cart limit.\n");
+                                        Pause(); 
+                                        break;
                                     }
 
                                     cart[i].Product.DeductStock(diff);
@@ -245,15 +293,19 @@ namespace ShoppingCartActivity
                                     break;
                                 }
                             }
+
                             if (!foundItem)
                             {
-                                Console.WriteLine("Product not found in cart.\n"); Pause();
+                                Console.WriteLine("Product not found in cart.\n"); 
+                                Pause();
                             }
                         }
+
+                        // ── 3. REMOVE AN ITEM ─────────────────────────────────
                         else if (cartChoice == "3")
                         {
                             Console.WriteLine("=========== REMOVE ITEM ==========");
-                            Console.WriteLine($"{"ITEM",-10} {"QTY",-5} {"SUBTOTAL",-10}");
+                            Console.WriteLine($"{"ID",-3}{"ITEM",-10} {"QTY",-5} {"SUBTOTAL",-10}");
                             Console.WriteLine("----------------------------------");
                             for (int i = 0; i < cartCount; i++)
                             {
@@ -263,7 +315,9 @@ namespace ShoppingCartActivity
                             Console.Write("\nEnter Product ID to remove: ");
                             if (!int.TryParse(Console.ReadLine(), out int removeId))
                             {
-                                Console.WriteLine("Invalid ID.\n"); Pause(); continue;
+                                Console.WriteLine("Invalid ID.\n"); 
+                                Pause(); 
+                                continue;
                             }
 
                             bool foundRemove = false;
@@ -275,28 +329,33 @@ namespace ShoppingCartActivity
                                     cart[i].Product.DeductStock(-cart[i].Quantity); 
                                     cartQuantity -= cart[i].Quantity;
 
+                                    // Shift array left
                                     for (int j = i; j < cartCount - 1; j++)
                                         cart[j] = cart[j + 1];
                                     cart[--cartCount] = null;
 
                                     Console.WriteLine("Item removed from cart.\n");
-                                    Pause(); break;
+                                    Pause(); 
+                                    break;
                                 }
                             }
+
                             if (!foundRemove)
                             {
-                                Console.WriteLine("Product not found in cart.\n"); Pause();
+                                Console.WriteLine("Product not found in cart.\n"); 
+                                Pause();
                             }
                         }
+
+                        // ── 4. CLEAR CART ─────────────────────────────────────
                         else if (cartChoice == "4")
                         {
-                            Console.Write("Are you sure you want to clear the cart? (Y/N): ");
-                            string confirm = Console.ReadLine().ToUpper();
+                            string confirm = YesNo("Are you sure you want to clear the cart? (Y/N): ");
                             if (confirm == "Y")
                             {
                                 for (int i = 0; i < cartCount; i++)
                                 {
-                                    cart[i].Product.DeductStock(-cart[i].Quantity); 
+                                    cart[i].Product.DeductStock(-cart[i].Quantity); // restore stock
                                     cart[i] = null;
                                 }
                                 cartCount = 0;
@@ -307,9 +366,12 @@ namespace ShoppingCartActivity
                             }
                             else
                             {
-                                Console.WriteLine("Cancelled.\n"); Pause();
+                                Console.WriteLine("Cancelled.\n"); 
+                                Pause();
                             }
                         }
+
+                        // ── 5. CHECKOUT ───────────────────────────────────────
                         else if (cartChoice == "5")
                         {
                             double grandTotal = 0;
@@ -319,17 +381,17 @@ namespace ShoppingCartActivity
                             double finalTotal = grandTotal - discount;
 
                             Console.WriteLine("=========== CHECKOUT ==========");
-                            Console.WriteLine($"Grand Total: ${grandTotal:F2}");
+                            Console.WriteLine($"Grand Total:  ${grandTotal:F2}");
                             if (discount > 0)
-                                Console.WriteLine($"Discount (10%): ${discount:F2}");
-                            Console.WriteLine($"Final Total: ${finalTotal:F2}\n");
+                            Console.WriteLine($"Discount (10%): ${discount:F2}");
+                            Console.WriteLine($"Final Total:  ${finalTotal:F2}\n");
 
-                            Console.Write("Proceed to checkout? (Y/N): ");
-                            string confirm = Console.ReadLine().ToUpper();
+                            string confirm = YesNo("Proceed to checkout? (Y/N): ");
                             Console.Clear();
 
                             if (confirm == "Y")
                             {
+                                // Payment validation loop
                                 double payment = 0;
                                 while (true)
                                 {
@@ -348,15 +410,24 @@ namespace ShoppingCartActivity
                                         continue;
                                     }
 
-                                    break; 
+                                    break;
+                                    
                                 }
-
+                                Console.Clear();
                                 double change = payment - finalTotal;
 
+                                receiptNo++;
+                                DateTime now = DateTime.Now;
+
+                                // Print
                                 Console.WriteLine("\n=========== RECEIPT ===========");
+                                Console.WriteLine($"Receipt No : {receiptNo:D4}");
+                                Console.WriteLine($"Date       : {now:MMMM dd, yyyy h:mm tt}");
+                                Console.WriteLine("-------------------------------");
                                 Console.WriteLine($"{"ITEM",-10} {"QTY",-5} {"SUBTOTAL",-10}");
+                                Console.WriteLine("-------------------------------");
                                 for (int i = 0; i < cartCount; i++) cart[i].DisplayCartItem();
-                                Console.WriteLine("------------------------------");
+                                Console.WriteLine("-------------------------------");
                                 Console.WriteLine($"Grand Total:  ${grandTotal:F2}");
                                 Console.WriteLine($"Discount:     ${discount:F2}");
                                 Console.WriteLine($"Final Total:  ${finalTotal:F2}");
@@ -364,77 +435,144 @@ namespace ShoppingCartActivity
                                 Console.WriteLine($"Change:       ${change:F2}");
                                 Console.WriteLine("===============================");
 
+                                // Save order to history
+                                CartItem[] snapshot = new CartItem[cartCount];
+                                for (int i = 0; i < cartCount; i++) snapshot[i] = cart[i];
+
+                                orderHistory[orderCount] = new Order(receiptNo, now, snapshot, cartCount,
+                                                                     grandTotal, discount, finalTotal,
+                                                                     payment, change);
+                                orderCount++;
+
+                                // Low stock alert
                                 Console.WriteLine("\nLOW STOCK ALERT:");
                                 foreach (Product p in products)
                                 {
                                     p.ReorderAlert();
                                 }
 
+                                // Reset cart
                                 cart = new CartItem[5];
                                 cartCount = 0;
                                 cartQuantity = 0;
                                 Pause();
                                 inCart = false;
                             }
-                            else if (confirm == "N")
+                            else
                             {
                                 Console.WriteLine("Returning to cart menu.\n");
                             }
-                            else
-                            {
-                                Console.WriteLine("Invalid input. Returning to cart menu.\n"); 
-                                Pause();
-                            }
                         }
+
+                        // ── 6. BACK TO MAIN MENU ──────────────────────────────
                         else if (cartChoice == "6")
                         {
                             inCart = false;
                         }
                         else
                         {
-                            Console.WriteLine("Invalid choice.\n"); 
-                            Pause();
+                            Console.WriteLine("Invalid choice. Please enter 1-6.\n"); Pause();
                         }
                     }
                 }
-            }
+
+                // ══════════════════════════════════════════════════════════════
+                // 3. SEARCH
+                // ══════════════════════════════════════════════════════════════
                 else if (choice == "3")
                 {
                     Console.Clear();
                     Console.Write("Input the Product or Category you want to search: ");
                     string search = Console.ReadLine().ToUpper();
-                    Console.WriteLine($"{"ID",-3} {"Product",-13} {"Price",-10} {"Stock"}");
+                    Console.WriteLine($"\n{"ID",-3} {"PRODUCT",-13} {"PRICE",-10} {"STOCK",-8} {"CATEGORY",-5}");
+                    Console.WriteLine("------------------------------------------------");
+
                     bool found = false;
                     foreach (Product i in products)
                     {
-
-                        if (i.Name.ToUpper() == search || i.Category.ToUpper() == search)
+                        if (i.Name.ToUpper().Contains(search) || i.Category.ToUpper().Contains(search))
                         {
-                            
-                            i.DisplayProduct();                            
+                            i.DisplayProduct();
+                            found = true;
                         }
-                        if (!found)
-                        {
-                            Console.WriteLine($"{search} was not found!");
-                            Pause();                            
-                        }
-                        
                     }
-                    Pause();
 
+                    if (!found)
+                    {
+                        Console.WriteLine($"{search} was not found!");
+                    }
+
+                    Pause();
                 }
+
+                // ══════════════════════════════════════════════════════════════
+                // 4. ORDER HISTORY
+                // ══════════════════════════════════════════════════════════════
                 else if (choice == "4")
                 {
-                    Console.WriteLine("Exit");
+                    Console.Clear();
+                    Console.WriteLine("=========== ORDER HISTORY ===========");
+
+                    if (orderCount == 0)
+                    {
+                        Console.WriteLine("No orders yet.\n");
+                        Pause();
+                        continue;
+                    }
+
+                    for (int i = 0; i < orderCount; i++)
+                    {
+                        Console.WriteLine($"Receipt #{orderHistory[i].ReceiptNo:D4} - Final Total: ${orderHistory[i].FinalTotal:F2}");
+                    }
+
+                    Console.WriteLine("=====================================");
+                    string viewDetail = YesNo("View a detailed receipt? (Y/N): ");
+
+                    if (viewDetail == "Y")
+                    {
+                        Console.Write("Enter receipt number (e.g. 1): ");
+                        if (!int.TryParse(Console.ReadLine(), out int viewNo) || viewNo < 1 || viewNo > orderCount)
+                        {
+                            Console.WriteLine("Invalid receipt number.\n");
+                            Pause();
+                            continue;
+                        }
+
+                        Order o = orderHistory[viewNo - 1];
+                        Console.Clear();
+                        Console.WriteLine("\n=========== RECEIPT ===========");
+                        Console.WriteLine($"Receipt No : {o.ReceiptNo:D4}");
+                        Console.WriteLine($"Date       : {o.Date:MMMM dd, yyyy h:mm tt}");
+                        Console.WriteLine("-------------------------------");
+                        Console.WriteLine($"{"ITEM",-10} {"QTY",-5} {"SUBTOTAL",-10}");
+                        Console.WriteLine("-------------------------------");
+                        for (int i = 0; i < o.ItemCount; i++) o.Items[i].DisplayCartItem();
+                        Console.WriteLine("-------------------------------");
+                        Console.WriteLine($"Grand Total:  ${o.GrandTotal:F2}");
+                        Console.WriteLine($"Discount:     ${o.Discount:F2}");
+                        Console.WriteLine($"Final Total:  ${o.FinalTotal:F2}");
+                        Console.WriteLine($"Payment:      ${o.Payment:F2}");
+                        Console.WriteLine($"Change:       ${o.Change:F2}");
+                        Console.WriteLine("===============================");
+                    }
+
+                    Pause();
+                }
+
+                // ══════════════════════════════════════════════════════════════
+                // 5. EXIT
+                // ══════════════════════════════════════════════════════════════
+                else if (choice == "5")
+                {
+                    Console.WriteLine("Goodbye!");
                     return;
                 }
                 else
                 {
-                    Console.WriteLine("Invalid choice");
-                    
+                    Console.WriteLine("Invalid choice. Please enter 1-5.\n");
+                    Pause() ;
                 }
             }
         }
-        
     }
 }
