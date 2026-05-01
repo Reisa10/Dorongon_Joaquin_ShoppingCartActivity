@@ -1,36 +1,16 @@
 # ShoppingCartActivity AI Usage
 
-AI Usage in This Project
+Part 2 AI Usage
 
-AI was used in selected parts of this project to improve clarity, structure, and presentation.
+For part 2 I encountered WI-FI Connection loss all throughout the week so almost half of the requirements of the part 2 I needed AI assistance for faster programming.
 
-I used AI mainly for:
+1. Cart Management
+– Encountered problem/Error when refactoring the View Cart option into Cart Management, AI usage: Generated a snippet for for-loop condition for update quantity, Restoration of stocks for Removed Items and Cart   Array index shifting.
+2. Receipt Number and Date
+	– Used AI for explaining how to import or use the system’s Date and Time as reference to be used in the Receipt, Enhanced the Receipt formatting to meet all the required Variables and for a much better receipt visual.
+3. Order History
+	– Used AI on most of the parts, asked AI what should I do to integrate it to my code and used the snippets generated to properly input on my code such as new class and the logic.
+4. UI Formatting, Comments, Debugging
+	– AI was used primarily on making the Console UI better, also used AI in adding comments for easier readability and locating important syntaxes, and lastly, generally for Debugging since AI can spot bugs faster than normal human being, I used to spot bugs and tried to fix it with my own knowledge.
 
-- Improving the formatting and design of the console output
-- Creating a detailed flowchart of the program’s process
-- Reviewing the code for logic improvements and minor bug fixes
-- Learning and applying the use of int.TryParse for input validation
-
-The reason for using AI in these parts was to:
-
-- Make the program look more professional and organized
-- Ensure the flowchart clearly represents the actual program flow
-- Identify possible errors and improvements that I might overlook
-- Better understand how to safely handle user input and avoid runtime errors
-
-Some of the prompts/questions I asked include:
-
-- “Help me format my console output to look professional”
-- “Create a verbose flowchart of my program”
-- “Review my code and suggest improvements”
-- “How does int.TryParse work and how can I use it in my program?”
-
-After using AI, I made the following improvements:
-
-- Adjusted the UI layout to be cleaner and aligned
-- Fixed logic issues such as validation and cart limits
-- Implemented proper input validation using int.TryParse
-- Refined the flowchart connections and symbols to match standard conventions
-- Ensured the final output matches the actual behavior of the code
-
-AI was used as a support tool to enhance the quality of the project while helping me learn new concepts and improve my programming skills.
+Overall, the AI usage for this part was more on generating snippets rather than whole code or syntax so I can still try to figure out how to write the working logic.
