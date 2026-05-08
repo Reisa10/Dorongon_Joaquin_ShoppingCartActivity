@@ -326,7 +326,7 @@ namespace ShoppingCartActivity
                                 if (cart[i].Product.Id == removeId)
                                 {
                                     foundRemove = true;
-                                    cart[i].Product.DeductStock(-cart[i].Quantity); 
+                                    cart[i].Product.RestoreStock(cart[i].Quantity);
                                     cartQuantity -= cart[i].Quantity;
 
                                     // Shift array left
@@ -355,7 +355,7 @@ namespace ShoppingCartActivity
                             {
                                 for (int i = 0; i < cartCount; i++)
                                 {
-                                    cart[i].Product.DeductStock(-cart[i].Quantity); // restore stock
+                                    cart[i].Product.RestoreStock(cart[i].Quantity);
                                     cart[i] = null;
                                 }
                                 cartCount = 0;
